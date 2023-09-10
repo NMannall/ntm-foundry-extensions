@@ -1,0 +1,10 @@
+{
+    "NTM-EXT": {
+        "settings": {
+            "skip-move-animation": {
+                "Name": "Allow skipping movement animation",
+                "Hint": "When active, players can hold down 'ctrl' to skip the movement animation when moving a token."
+            }
+        }
+    }
+}
