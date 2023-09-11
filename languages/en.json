@@ -1,9 +1,19 @@
 {
     "NTM-EXT": {
         "settings": {
-            "skip-move-animation": {
+            "token-movement-skip": {
                 "Name": "Allow skipping movement animation",
-                "Hint": "When active, players can hold down 'ctrl' to skip the movement animation when moving a token."
+                "Hint": "When active, players can hold down 'alt' to skip the movement animation when moving a token. If the toggle button is active, holding down 'alt' will cause the opposite behaviour currently set."
+            },
+            "token-movement-toggle-button-show": {
+                "Name": "Show skip movement animation toggle button",
+                "Hint": "Display a toggle button that when active makes the default behaviour skipping movement animation."
+            }
+        },
+        "confirms": {
+            "reload": {
+                "Title": "Confirm reload",
+                "Content": "Some settings require a reload to take effect. Do you want to reload now?"
             }
         }
     }
