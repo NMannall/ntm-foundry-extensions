@@ -24,6 +24,10 @@ Hooks.once('init', async function () {
     function (wrapped, args) {
       Log.log('TokenLayer.prototype.moveMany was called')
 
+      if (game.combat?.started) {
+        return wrapped(args)
+      }
+
       // Determine the set of movable object IDs unless some were explicitly provided
       args.ids =
         args.ids instanceof Array
