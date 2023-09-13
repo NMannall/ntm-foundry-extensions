@@ -13,6 +13,9 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "globals": {
+    "libWrapper": "readonly"
+  },
   "rules": {
     "no-shadow": ["error", {
       "builtinGlobals": true,

@@ -8,12 +8,48 @@ export class NTMFoundryExtensions {
   static MODULE_ID = 'ntm-foundry-extensions'
   static MODULE_NAME = 'NTM Foundry Extensions'
 
-  static FLAGS = {}
+  static FLAGS = {
+    LINKED_TOKENS: 'linkedTokens',
+  }
 }
 
 Hooks.once('init', async function () {
   console.log(NTMFoundryExtensions.MODULE_ID, 'init')
   registerSettings()
+  tokenMovement.registerBindings()
+
+  libWrapper.register(
+    NTMFoundryExtensions.MODULE_ID,
+    'TokenLayer.prototype.moveMany',
+    function (wrapped, args) {
+      Log.log('TokenLayer.prototype.moveMany was called')
+
+      // Determine the set of movable object IDs unless some were explicitly provided
+      args.ids =
+        args.ids instanceof Array
+          ? args.ids
+          : this.controlled.filter((o) => !o.document.locked).map((o) => o.id)
+
+      const ids = [...args.ids]
+      args.ids.forEach((id) => {
+        const linkedIds = game.canvas.tokens
+          .get(id)
+          ?.document.getFlag(
+            NTMFoundryExtensions.MODULE_ID,
+            NTMFoundryExtensions.FLAGS.LINKED_TOKENS,
+          )
+        if (linkedIds) {
+          ids.push(id, ...linkedIds)
+        }
+      })
+      args.ids = [...new Set(ids)]
+
+      Log.log('Ids: ', args.ids)
+
+      return wrapped(args)
+    },
+    'MIXED',
+  )
 })
 
 Hooks.once('ready', async function () {
